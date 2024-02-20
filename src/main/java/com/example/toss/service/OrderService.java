@@ -1,6 +1,7 @@
 package com.example.toss.service;
 
 import com.example.toss.dto.ItemsPaidDto;
+import com.example.toss.dto.PaymentCancelDto;
 import com.example.toss.dto.PaymentConfirmDto;
 import com.example.toss.entity.Item;
 import com.example.toss.entity.ItemOrder;
@@ -9,6 +10,7 @@ import com.example.toss.repo.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -20,6 +22,20 @@ public class OrderService {
     private final ItemRepository itemRepository;
     private final ItemOrderRepository itemOrderRepository;
 
+    // 결제 취소
+    @Transactional
+    public Object cancelPayment(PaymentCancelDto dto, String paymentKey) {
+        HashMap<String, Object> cancelPaymentObj = tossService.cancelPayment(dto, paymentKey);
+        log.info(cancelPaymentObj.toString());
+
+        ItemOrder foundOrder = itemOrderRepository.findByTossPaymentKey(paymentKey);
+        foundOrder.setStatus("canceled");
+        itemOrderRepository.save(foundOrder);
+
+        log.info("canceled order:: " + itemOrderRepository.findByTossPaymentKey(paymentKey));
+
+        return cancelPaymentObj;
+    }
 
     // 결제 승인 요청 보내기
     public Object confirmPayment(PaymentConfirmDto dto) {
@@ -64,5 +80,11 @@ public class OrderService {
         HashMap<String, Object> tossPaymentObj = tossService.readPaymentByPaymentKey(paymentKey);
         return tossPaymentObj;
     }
+
+    // 결제정보 조회 > orderId (점주가 생성한)로 조회하기
+    public Object readPaymentByOrderId(String orderId) {
+        return tossService.readPaymentByOrderId(orderId);
+    }
+
 
 }

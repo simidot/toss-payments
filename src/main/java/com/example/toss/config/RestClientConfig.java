@@ -9,6 +9,7 @@ import org.springframework.web.client.support.RestClientAdapter;
 import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
 import java.util.Base64;
+import java.util.UUID;
 
 @Configuration
 public class RestClientConfig {
@@ -19,10 +20,12 @@ public class RestClientConfig {
     @Bean
     public RestClient tossRestClient() {
         String basicAuth = Base64.getEncoder().encodeToString((tossSecret + ":").getBytes());
+        String idempotencyKey = String.valueOf(UUID.randomUUID());
 
         return RestClient.builder()
                 .baseUrl("https://api.tosspayments.com/v1")
                 .defaultHeader("Authorization", "Basic "+basicAuth)
+                .defaultHeader("Idempotency-Key", idempotencyKey)
 //                .requestInitializer(request -> request.getHeaders().add("Authorization", basicAuth))
                 .build();
     }
