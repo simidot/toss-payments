@@ -36,7 +36,7 @@
 <script>
   const itemId = new URLSearchParams(location.search).get('id')
   // 클라이언트 키
-  const clientKey = ' '
+  const clientKey = '  '
 
   const paymentWidget = PaymentWidget(clientKey, PaymentWidget.ANONYMOUS)
   const paymentMethodsWidget = paymentWidget.renderPaymentMethods(
