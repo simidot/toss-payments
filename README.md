@@ -18,3 +18,6 @@
 
 
 6. 주문 정보들의 결제에 대하여 **개별 취소** 가능
+
+
+![tosspayments.png](tosspayments.png)

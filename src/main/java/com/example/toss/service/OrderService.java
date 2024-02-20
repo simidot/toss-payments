@@ -22,20 +22,7 @@ public class OrderService {
     private final ItemRepository itemRepository;
     private final ItemOrderRepository itemOrderRepository;
 
-    // 결제 취소
-    @Transactional
-    public Object cancelPayment(PaymentCancelDto dto, String paymentKey) {
-        HashMap<String, Object> cancelPaymentObj = tossService.cancelPayment(dto, paymentKey);
-        log.info(cancelPaymentObj.toString());
 
-        ItemOrder foundOrder = itemOrderRepository.findByTossPaymentKey(paymentKey);
-        foundOrder.setStatus("canceled");
-        itemOrderRepository.save(foundOrder);
-
-        log.info("canceled order:: " + itemOrderRepository.findByTossPaymentKey(paymentKey));
-
-        return cancelPaymentObj;
-    }
 
     // 결제 승인 요청 보내기
     public Object confirmPayment(PaymentConfirmDto dto) {
@@ -86,5 +73,18 @@ public class OrderService {
         return tossService.readPaymentByOrderId(orderId);
     }
 
+    // 결제 취소
+    @Transactional
+    public Object cancelPayment(PaymentCancelDto dto, String paymentKey) {
+        HashMap<String, Object> cancelPaymentObj = tossService.cancelPayment(dto, paymentKey);
+        log.info(cancelPaymentObj.toString());
 
+        ItemOrder foundOrder = itemOrderRepository.findByTossPaymentKey(paymentKey);
+        foundOrder.setStatus("canceled");
+        itemOrderRepository.save(foundOrder);
+
+        log.info("canceled order:: " + itemOrderRepository.findByTossPaymentKey(paymentKey));
+
+        return cancelPaymentObj;
+    }
 }
