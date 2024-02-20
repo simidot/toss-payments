@@ -1,7 +1,6 @@
 package com.example.toss;
 
-import com.example.toss.dto.ItemOrderDto;
-import com.example.toss.repo.ItemOrderRepository;
+import com.example.toss.dto.ItemsPaidDto;
 import com.example.toss.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,13 +16,13 @@ public class OrderController {
 
     // 주문정보 전체조회
     @GetMapping("orders")
-    public List<ItemOrderDto> readAllOrders() {
+    public List<ItemsPaidDto> readAllOrders() {
         return orderService.readAllOrders();
     }
 
     // 주문정보 단일조회 > tossOrderId로 조회하기
     @GetMapping("/orders/{tossOrderId}")
-    public ItemOrderDto readByTossOrderId(
+    public ItemsPaidDto readByTossOrderId(
             @PathVariable("tossOrderId") String tossOrderId
     ) {
         return orderService.readByTossOrderId(tossOrderId);

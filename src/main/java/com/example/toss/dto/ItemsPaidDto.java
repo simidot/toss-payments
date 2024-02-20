@@ -1,8 +1,6 @@
 package com.example.toss.dto;
 
-import com.example.toss.entity.Item;
 import com.example.toss.entity.ItemOrder;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.AllArgsConstructor;
@@ -14,20 +12,20 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class ItemOrderDto {
+public class ItemsPaidDto {
     private Long id;
-    private String item;
+    private ItemDto item;
     private String tossPaymentKey;
     private String tossOrderId;
     private String status;
 
-    public static ItemOrderDto fromEntity(ItemOrder entity) {
-        return ItemOrderDto.builder()
+    public static ItemsPaidDto fromEntity(ItemOrder entity) {
+        return ItemsPaidDto.builder()
                 .id(entity.getId())
                 .tossOrderId(entity.getTossOrderId())
                 .tossPaymentKey(entity.getTossPaymentKey())
                 .status(entity.getStatus())
-                .item(entity.getItem().getName())
+                .item(ItemDto.fromEntity(entity.getItem()))
                 .build();
     }
 

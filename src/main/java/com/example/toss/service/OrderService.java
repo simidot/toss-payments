@@ -1,6 +1,6 @@
 package com.example.toss.service;
 
-import com.example.toss.dto.ItemOrderDto;
+import com.example.toss.dto.ItemsPaidDto;
 import com.example.toss.dto.PaymentConfirmDto;
 import com.example.toss.entity.Item;
 import com.example.toss.entity.ItemOrder;
@@ -44,19 +44,19 @@ public class OrderService {
     }
 
     // 주문정보 전체조회
-    public List<ItemOrderDto> readAllOrders() {
+    public List<ItemsPaidDto> readAllOrders() {
         List<ItemOrder> orders = itemOrderRepository.findAll();
-        List<ItemOrderDto> dtoList = new ArrayList<>();
+        List<ItemsPaidDto> dtoList = new ArrayList<>();
         for (ItemOrder order : orders) {
-            dtoList.add(ItemOrderDto.fromEntity(order));
+            dtoList.add(ItemsPaidDto.fromEntity(order));
         }
         return dtoList;
     }
 
     // 주문정보 단일조회 > tossOrderId로 조회하기
-    public ItemOrderDto readByTossOrderId(String tossOrderId) {
+    public ItemsPaidDto readByTossOrderId(String tossOrderId) {
         ItemOrder itemOrder = itemOrderRepository.findByTossOrderId(tossOrderId);
-        return ItemOrderDto.fromEntity(itemOrder);
+        return ItemsPaidDto.fromEntity(itemOrder);
     }
 
     // 결제정보 조회 > tossPaymentKey로 조회하기
