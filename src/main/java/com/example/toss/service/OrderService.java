@@ -59,6 +59,10 @@ public class OrderService {
         return ItemOrderDto.fromEntity(itemOrder);
     }
 
-
+    // 결제정보 조회 > tossPaymentKey로 조회하기
+    public Object readPaymentByPaymentKey(String paymentKey) {
+        HashMap<String, Object> tossPaymentObj = tossService.readPaymentByPaymentKey(paymentKey);
+        return tossPaymentObj;
+    }
 
 }

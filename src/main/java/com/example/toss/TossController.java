@@ -26,4 +26,11 @@ public class TossController {
         log.info("received : {}", dto.toString());
         return orderService.confirmPayment(dto);
     }
+
+    @GetMapping("/payments/{paymentKey}")
+    public Object paymentsByPaymentKey(
+            @PathVariable("paymentKey") String paymentKey) {
+        log.info("received : {}", paymentKey);
+        return orderService.readPaymentByPaymentKey(paymentKey);
+    }
 }
